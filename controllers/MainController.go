@@ -11,19 +11,21 @@ type helloWorld struct {
 	count int
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, r.Method)
-	salamIran := helloWorld{
-		hello: "salam",
-		world: "iran",
-		count: 5,
+func NewHelloWorld(hello, word string, count int) HelloWorld {
+	return &helloWorld{
+		hello: hello,
+		world: word,
+		count: count,
 	}
-	for i := 0; i <= salamIran.count; i++ {
-		fmt.Fprintln(w, salamIran.hello, salamIran.world)
+}
+func (h *helloWorld) Index(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, r.Method)
+	for i := 0; i <= h.count; i++ {
+		fmt.Fprintln(w, h.hello, h.world)
 	}
 }
 
-func Exist(w http.ResponseWriter, r *http.Request) {
+func (h *helloWorld) Exist(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, r.Method)
 	fruitMap := make(map[string]int)
 	fruitMap["Banna"] = 5
