@@ -1,11 +1,12 @@
 package main
 
 import (
+	"FirstGolangProject/database"
 	"flag"
 	"log"
 	"net/http"
 
-	"awesomeProject/controllers"
+	"FirstGolangProject/controllers"
 )
 
 var (
@@ -14,6 +15,7 @@ var (
 
 func main() {
 	flag.Parse()
+	database.Connection()
 	helloWorld := controllers.NewHelloWorld("Hello", "World", 5)
 	http.HandleFunc("/", helloWorld.Index)
 	http.HandleFunc("/exist", helloWorld.Exist)
