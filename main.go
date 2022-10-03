@@ -2,6 +2,7 @@ package main
 
 import (
 	"FirstGolangProject/database"
+	"FirstGolangProject/repositories"
 	"flag"
 	"log"
 	"net/http"
@@ -15,9 +16,11 @@ var (
 
 func main() {
 	flag.Parse()
-	database.Connection()
-	helloWorld := controllers.NewHelloWorld("Hello", "World", 5)
+	db := database.Connect()
+	repository := repositories.NewConnection(db)
+	helloWorld := controllers.NewHelloWorld(repository)
 	http.HandleFunc("/", helloWorld.Index)
-	http.HandleFunc("/exist", helloWorld.Exist)
+	http.HandleFunc("/find", helloWorld.FindById)
+	http.HandleFunc("/create", helloWorld.Create)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
