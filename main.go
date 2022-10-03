@@ -2,7 +2,9 @@ package main
 
 import (
 	"FirstGolangProject/database"
+	"FirstGolangProject/models"
 	"FirstGolangProject/repositories"
+	"database/sql"
 	"flag"
 	"log"
 	"net/http"
@@ -17,10 +19,16 @@ var (
 func main() {
 	flag.Parse()
 	db := database.Connect()
-	repository := repositories.NewConnection(db)
-	helloWorld := controllers.NewHelloWorld(repository)
-	http.HandleFunc("/", helloWorld.Index)
-	http.HandleFunc("/find", helloWorld.FindById)
-	http.HandleFunc("/create", helloWorld.Create)
+
+	handle(db, &models.Hobby{}, "/hobbies")
+	handle(db, &models.KeyValue{}, "/key-values")
 	log.Fatal(http.ListenAndServe(*addr, nil))
+}
+
+func handle(db *sql.DB, model models.BaseModel, baseName string) {
+	repository := repositories.NewConnection(db, model)
+	helloWorld := controllers.NewHelloWorld(repository)
+	http.HandleFunc(baseName+"/", helloWorld.Index)
+	http.HandleFunc(baseName+"/find", helloWorld.FindById)
+	http.HandleFunc(baseName+"/create", helloWorld.Create)
 }

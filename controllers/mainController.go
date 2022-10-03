@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"FirstGolangProject/models"
 	"FirstGolangProject/repositories"
 	"fmt"
 	"net/http"
@@ -10,7 +9,6 @@ import (
 
 type helloWorld struct {
 	connection *repositories.Connection
-	model      models.KeyValue
 }
 
 func NewHelloWorld(connection *repositories.Connection) HelloWorld {
@@ -21,8 +19,8 @@ func NewHelloWorld(connection *repositories.Connection) HelloWorld {
 
 func (h *helloWorld) Index(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintln(w, r.Method)
-	keyValues := h.connection.All()
-	for _, model := range keyValues {
+	modelsSlice := h.connection.All()
+	for _, model := range modelsSlice {
 		fmt.Fprintln(w, model)
 	}
 }

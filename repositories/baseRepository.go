@@ -9,36 +9,37 @@ import (
 
 type Connection struct {
 	connection *sql.DB
+	model      models.BaseModel
 }
 
-func NewConnection(db *sql.DB) *Connection {
+func NewConnection(db *sql.DB, model models.BaseModel) *Connection {
 	return &Connection{
 		connection: db,
+		model:      model,
 	}
 }
 
-func (db *Connection) All() []models.KeyValue {
-	query, _ := db.connection.Query("select * from key_value_table")
+func (db *Connection) All() []models.BaseModel {
+	query, _ := db.connection.Query("select * from " + db.model.GetTableName())
 	defer query.Close()
-	var model models.KeyValue
-	var keyValues []models.KeyValue
+	var modelsSlice []models.BaseModel
 	for query.Next() {
-		query.Scan(&model.Id, &model.Key, &model.Value)
-		keyValues = append(keyValues, model)
+		model := db.model.NewInstance()
+		model.SetValues(query)
+		modelsSlice = append(modelsSlice, model)
 	}
-	fmt.Println(keyValues)
-	return keyValues
+	fmt.Println(modelsSlice)
+	return modelsSlice
 }
 
 func (db *Connection) Insert() {
-	query, _ := db.connection.Query("insert into key_value_table (`key`, `value`) values ('sajjad', 'rabiee')")
+	query, _ := db.connection.Query("insert into " + db.model.GetTableName() + " (`key`, `value`) values ('sajjad', 'rabiee')")
 	defer query.Close()
 }
 
-func (db *Connection) FindById(id int) models.KeyValue {
-	query := db.connection.QueryRow("select * from key_value_table where id = ?", id)
-	var model models.KeyValue
-	query.Scan(&model.Id, &model.Key, &model.Value)
+func (db *Connection) FindById(id int) models.BaseModel {
+	query := db.connection.QueryRow("select * from "+db.model.GetTableName()+" where id = ?", id)
+	db.model.SetValue(query)
 
-	return model
+	return db.model
 }
