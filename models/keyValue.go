@@ -23,3 +23,7 @@ func (keyValue KeyValue) GetTableName() string {
 func (keyValue KeyValue) NewInstance() BaseModel {
 	return &KeyValue{}
 }
+
+func (KeyValue KeyValue) GetValues() string {
+	return "key, value"
+}

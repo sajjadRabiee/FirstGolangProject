@@ -23,3 +23,7 @@ func (hobby Hobby) GetTableName() string {
 func (hobby Hobby) NewInstance() BaseModel {
 	return &Hobby{}
 }
+
+func (hobby Hobby) GetValues() string {
+	return "name, value"
+}

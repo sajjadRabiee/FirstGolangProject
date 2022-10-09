@@ -33,7 +33,7 @@ func (db *Connection) All() []models.BaseModel {
 }
 
 func (db *Connection) Insert() {
-	query, _ := db.connection.Query("insert into " + db.model.GetTableName() + " (`key`, `value`) values ('sajjad', 'rabiee')")
+	query, _ := db.connection.Query("insert into " + db.model.GetTableName() + " (" + db.model.GetValues() + ") values ('sajjad', 'rabiee')")
 	defer query.Close()
 }
 

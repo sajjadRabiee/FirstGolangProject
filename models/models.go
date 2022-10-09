@@ -7,4 +7,5 @@ type BaseModel interface {
 	SetValues(row *sql.Rows)
 	GetTableName() string
 	NewInstance() BaseModel
+	GetValues() string
 }
