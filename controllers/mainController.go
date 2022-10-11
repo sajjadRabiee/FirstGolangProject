@@ -19,23 +19,22 @@ func NewHelloWorld(connection *repositories.Connection) HelloWorld {
 }
 
 func (h *helloWorld) Index(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
-	encoder.Encode(r.Method)
 	modelsSlice := h.connection.All()
-	for _, model := range modelsSlice {
-		encoder.Encode(model)
-	}
+	encoder.Encode(modelsSlice)
 }
 
 func (h *helloWorld) FindById(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
-	encoder.Encode(r.Method)
 	id, _ := strconv.ParseInt(r.URL.Query().Get("id"), 0, 32)
 	model := h.connection.FindById(int(id))
 	encoder.Encode(model)
 }
 
 func (h *helloWorld) Create(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	fmt.Fprintln(w, r.Method)
 	h.connection.Insert()
 }

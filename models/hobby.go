@@ -3,9 +3,9 @@ package models
 import "database/sql"
 
 type Hobby struct {
-	Id    int
-	Name  string
-	Value string
+	Id    int    `json:"id"`
+	Name  string `json:"name"`
+	Value string `json:"value"`
 }
 
 func (hobby *Hobby) SetValue(row *sql.Row) {

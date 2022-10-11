@@ -26,6 +26,7 @@ func main() {
 
 	handle(db, &models.Hobby{}, "/hobbies")
 	handle(db, &models.KeyValue{}, "/key-values")
+
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
 

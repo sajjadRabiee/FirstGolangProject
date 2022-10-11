@@ -3,9 +3,9 @@ package models
 import "database/sql"
 
 type KeyValue struct {
-	Id    int
-	Key   string
-	Value string
+	Id    int    `json:"id"`
+	Key   string `json:"key"`
+	Value string `json:"value"`
 }
 
 func (keyValue *KeyValue) SetValue(row *sql.Row) {
