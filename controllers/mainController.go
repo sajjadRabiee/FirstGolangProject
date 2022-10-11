@@ -3,7 +3,7 @@ package controllers
 import (
 	"FirstGolangProject/repositories"
 	"encoding/json"
-	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 )
@@ -35,6 +35,9 @@ func (h *helloWorld) FindById(w http.ResponseWriter, r *http.Request) {
 
 func (h *helloWorld) Create(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	fmt.Fprintln(w, r.Method)
-	h.connection.Insert()
+	model := h.connection.Model.NewInstance()
+	body, _ := io.ReadAll(r.Body)
+	json.Unmarshal(body, &model)
+	h.connection.Insert(model)
+	json.NewEncoder(w).Encode(model)
 }

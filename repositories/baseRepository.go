@@ -32,8 +32,8 @@ func (db *Connection) All() []models.BaseModel {
 	return modelsSlice
 }
 
-func (db *Connection) Insert() {
-	query, _ := db.dbConnection.Query("insert into " + db.Model.GetTableName() + " (" + db.Model.GetValues() + ") values ('sajjad', 'rabiee')")
+func (db *Connection) Insert(model models.BaseModel) {
+	query, _ := db.dbConnection.Query("insert into " + db.Model.GetTableName() + " (" + db.Model.GetTableTitles() + ") values (" + model.GetValues() + ")")
 	defer query.Close()
 }
 

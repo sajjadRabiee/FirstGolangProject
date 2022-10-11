@@ -1,9 +1,12 @@
 package models
 
-import "database/sql"
+import (
+	"database/sql"
+	"fmt"
+)
 
 type KeyValue struct {
-	Id    int    `json:"id"`
+	Id    int    `json:"id,omitempty"`
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
@@ -24,6 +27,11 @@ func (keyValue KeyValue) NewInstance() BaseModel {
 	return &KeyValue{}
 }
 
-func (KeyValue KeyValue) GetValues() string {
+func (keyValue KeyValue) GetTableTitles() string {
 	return "`key`, `value`"
+}
+
+func (keyValue *KeyValue) GetValues() string {
+	fmt.Println(keyValue)
+	return "'" + keyValue.Key + "', '" + keyValue.Value + "'"
 }
