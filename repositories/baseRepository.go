@@ -8,23 +8,23 @@ import (
 )
 
 type Connection struct {
-	connection *sql.DB
-	model      models.BaseModel
+	dbConnection *sql.DB
+	Model        models.BaseModel
 }
 
 func NewConnection(db *sql.DB, model models.BaseModel) *Connection {
 	return &Connection{
-		connection: db,
-		model:      model,
+		dbConnection: db,
+		Model:        model,
 	}
 }
 
 func (db *Connection) All() []models.BaseModel {
-	query, _ := db.connection.Query("select * from " + db.model.GetTableName())
+	query, _ := db.dbConnection.Query("select * from " + db.Model.GetTableName())
 	defer query.Close()
 	var modelsSlice []models.BaseModel
 	for query.Next() {
-		model := db.model.NewInstance()
+		model := db.Model.NewInstance()
 		model.SetValues(query)
 		modelsSlice = append(modelsSlice, model)
 	}
@@ -33,13 +33,13 @@ func (db *Connection) All() []models.BaseModel {
 }
 
 func (db *Connection) Insert() {
-	query, _ := db.connection.Query("insert into " + db.model.GetTableName() + " (" + db.model.GetValues() + ") values ('sajjad', 'rabiee')")
+	query, _ := db.dbConnection.Query("insert into " + db.Model.GetTableName() + " (" + db.Model.GetValues() + ") values ('sajjad', 'rabiee')")
 	defer query.Close()
 }
 
 func (db *Connection) FindById(id int) models.BaseModel {
-	query := db.connection.QueryRow("select * from "+db.model.GetTableName()+" where id = ?", id)
-	db.model.SetValue(query)
+	query := db.dbConnection.QueryRow("select * from "+db.Model.GetTableName()+" where id = ?", id)
+	db.Model.SetValue(query)
 
-	return db.model
+	return db.Model
 }

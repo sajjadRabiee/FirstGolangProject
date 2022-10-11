@@ -25,5 +25,5 @@ func (hobby Hobby) NewInstance() BaseModel {
 }
 
 func (hobby Hobby) GetValues() string {
-	return "name, value"
+	return "`name`, `value`"
 }

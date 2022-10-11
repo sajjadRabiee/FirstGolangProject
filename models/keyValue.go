@@ -25,5 +25,5 @@ func (keyValue KeyValue) NewInstance() BaseModel {
 }
 
 func (KeyValue KeyValue) GetValues() string {
-	return "key, value"
+	return "`key`, `value`"
 }
