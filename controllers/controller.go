@@ -6,5 +6,6 @@ import (
 
 type HelloWorld interface {
 	Index(w http.ResponseWriter, r *http.Request)
-	Exist(w http.ResponseWriter, r *http.Request)
+	FindById(w http.ResponseWriter, r *http.Request)
+	Create(w http.ResponseWriter, r *http.Request)
 }
